@@ -15,7 +15,7 @@ namespace Draft.Tests
         private readonly Func<HttpTest, HttpRequestMessage, HttpResponseMessage> _responseFactory;
 
         public TestingHttpClientFactory(HttpTest httpTest, Func<HttpTest, HttpRequestMessage, HttpResponseMessage> responseFactory = null)
-            : base(httpTest)
+            : base()
         {
             HttpTest = httpTest;
             _responseFactory = responseFactory ?? DefaultResponseFactory;

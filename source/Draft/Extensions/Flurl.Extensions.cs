@@ -4,6 +4,8 @@ using System.Net.Http;
 using System.Threading.Tasks;
 
 using Flurl;
+using Flurl.Http;
+using Flurl.Http.Content;
 
 namespace Draft
 {
@@ -25,5 +27,27 @@ namespace Draft
             return predicate ? ifTrue(This, data) : ifFalse(This, data);
         }
 
+        /// <summary>
+        /// Sends an asynchronous PUT request.
+        /// </summary>
+        /// <param name="data">Contents of the request body.</param>
+        /// <param name="client">The Flurl client.</param>
+        /// <returns>A Task whose result is the received HttpResponseMessage.</returns>
+        private static Task<HttpResponseMessage> PutUrlEncodedAsync(this FlurlClient client, object data)
+        {
+            var content = new CapturedUrlEncodedContent(client.Settings.UrlEncodedSerializer.Serialize(data));
+            return client.SendAsync(HttpMethod.Put, content: content);
+        }
+
+        /// <summary>
+        /// Creates a FlurlClient from the URL and sends an asynchronous PUT request.
+        /// </summary>
+        /// <param name="data">Contents of the request body.</param>
+        /// <param name="url">The URL.</param>
+        /// <returns>A Task whose result is the received HttpResponseMessage.</returns>
+        public static Task<HttpResponseMessage> PutUrlEncodedAsync(this Flurl.Url url, object data)
+        {
+            return new FlurlClient(url, false).PutUrlEncodedAsync(data);
+        }
     }
 }

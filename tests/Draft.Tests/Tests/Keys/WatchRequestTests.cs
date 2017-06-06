@@ -47,7 +47,7 @@ namespace Draft.Tests.Keys
         {
             using (var http = new HttpTest())
             {
-                http.RespondWith(500, "Some error string")
+                http.RespondWith("Some error string", 500)
                     .RespondWithJson(Fixtures.Watch.DefaultResponse)
                     .RespondWithJson(Fixtures.Watch.DefaultResponse);
 
